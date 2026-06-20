@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=SuperAdmin
-AppVersion=1.0.0
+AppVersion=2.0.0
 AppPublisher=Tally Super Admin
 DefaultDirName={autopf}\SuperAdmin
 DefaultGroupName=SuperAdmin
 UninstallDisplayIcon={app}\superadmin_app.exe
 OutputDir=installer_output
-OutputBaseFilename=SuperAdmin_Setup
+OutputBaseFilename=SuperAdmin_Setup_v2.0
 SetupIconFile=windows\runner\resources\app_icon.ico
 Compression=lzma2
 SolidCompression=yes

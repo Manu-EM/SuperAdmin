@@ -15,12 +15,18 @@ The **Tally SuperAdmin App** is a centralized administrative dashboard built wit
 *   **Access Control:** Enable or disable access to specific Tally companies on the fly.
 *   **Caching:** Caches client company data in the primary SuperAdmin database for rapid querying and access.
 
-### 3. Comprehensive Audit Logging
-*   **Action Tracking:** Every administrative action (like toggling a company's active status) is recorded.
-*   **Detailed Logs:** Captures the Admin User's name, the affected Client Account, the specific Company, the action taken, and the old/new values.
+### 3. App User Management (New in v2.0)
+*   **User Mapping:** Map dynamically to any client's user table (e.g., `users`, `employees`).
+*   **Data Preview:** Safely preview user data columns while blacklisting sensitive fields like passwords.
+*   **Status Toggling:** Enable or disable individual client users directly from the SuperAdmin dashboard.
+*   **Sticky Search:** Quickly search and filter through hundreds of client users by name or role.
+
+### 4. Comprehensive Audit Logging
+*   **Action Tracking:** Every administrative action (like toggling a company's or user's active status) is strictly recorded.
+*   **Detailed Logs:** Captures the Admin User's name, the affected Client Account, the specific Company/User, the action taken, and the old/new values.
 *   **Accountability:** Provides a transparent history of who changed what and when.
 
-### 4. Security & Authentication
+### 5. Security & Authentication
 *   **Admin Auth:** Secure login for administrators using Supabase Authentication.
 *   **Persistent Sessions:** Keeps administrators securely logged in across app restarts using local storage.
 
@@ -76,3 +82,9 @@ The **Tally SuperAdmin App** is a centralized administrative dashboard built wit
     ```bash
     flutter run
     ```
+
+## 📦 Windows Installer (v2.0)
+The app is fully optimized for Windows Desktop. To generate a `.exe` installer:
+1. Run `flutter build windows --release`
+2. Open `installer.iss` using **Inno Setup**.
+3. Compile to generate the setup file inside `installer_output/`.

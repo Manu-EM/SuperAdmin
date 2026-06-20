@@ -307,7 +307,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ),
               const SizedBox(height: 32),
               const Text(
-                'Tally Super Admin v1.0',
+                'Tally Super Admin v2.0',
                 style: TextStyle(
                   fontSize: 11,
                   color: Color(0xFF888888),

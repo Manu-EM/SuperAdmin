@@ -1,12 +1,15 @@
+import 'dart:async';
 import 'package:supabase/supabase.dart';
 import '../models/client_account.dart';
 import '../models/tally_company.dart';
+import 'super_admin_service.dart';
 
 class MultiSupabaseService {
   final List<ClientAccount> accounts;
+  final SuperAdminService superAdminService;
   final Map<String, SupabaseClient> _clients = {};
 
-  MultiSupabaseService(this.accounts) {
+  MultiSupabaseService(this.accounts, this.superAdminService) {
     for (final account in accounts) {
       if (account.supabaseUrl.isNotEmpty && account.anonKey.isNotEmpty) {
         _clients[account.id] = SupabaseClient(
@@ -16,6 +19,10 @@ class MultiSupabaseService {
         );
       }
     }
+  }
+
+  SupabaseClient? getClientForAccount(String accountId) {
+    return _clients[accountId];
   }
 
   Future<List<TallyCompany>> fetchAllCompanies() async {
@@ -48,7 +55,15 @@ class MultiSupabaseService {
     
     // Global sort by created_at descending
     allCompanies.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-    
+
+    // Silently sync each account's companies into cached_companies
+    for (final account in accounts) {
+      final accountCompanies = allCompanies
+          .where((c) => c.accountId == account.id)
+          .toList();
+      unawaited(superAdminService.syncCachedCompanies(account.id, accountCompanies));
+    }
+
     return allCompanies;
   }
 

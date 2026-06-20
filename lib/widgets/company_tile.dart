@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../models/tally_company.dart';
 import '../providers/companies_provider.dart';
 import '../providers/auth_provider.dart';
+import '../screens/company_detail_screen.dart';
 
 class CompanyTile extends ConsumerStatefulWidget {
   final TallyCompany company;
@@ -31,18 +32,21 @@ class _CompanyTileState extends ConsumerState<CompanyTile> {
 
     final indexColor = isDark ? const Color(0xFF3A3A3A) : const Color(0xFFCCCCCC);
     final nameColor = isDark ? const Color(0xFFEFEFEF) : const Color(0xFF1A1A1A);
-    final dateColor = isDark ? const Color(0xFF4A4A4A) : const Color(0xFFAAAAAA);
+    final dateColor = isDark ? Colors.white : const Color(0xFF555555);
 
-    final actionWidget = _isToggling 
-        ? const SizedBox(
-            width: 20, 
-            height: 20, 
-            child: CircularProgressIndicator(
-              strokeWidth: 2,
-              color: Color(0xFF7C3AED),
+    final actionWidget = GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {}, // Prevent tap propagation to the row
+      child: _isToggling 
+          ? const SizedBox(
+              width: 20, 
+              height: 20, 
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: Color(0xFF7C3AED),
+              )
             )
-          )
-        : CupertinoSwitch(
+          : CupertinoSwitch(
             activeColor: const Color(0xFF7C3AED),
             trackColor: isDark ? const Color(0xFF2A2A2A) : const Color(0xFFE5E5E5),
             value: widget.company.isActive,
@@ -102,7 +106,8 @@ class _CompanyTileState extends ConsumerState<CompanyTile> {
                 ref.invalidate(companiesProvider);
               }
             },
-          );
+          ),
+    );
 
     final isDesktop = MediaQuery.of(context).size.width > 768;
 
@@ -110,7 +115,14 @@ class _CompanyTileState extends ConsumerState<CompanyTile> {
       return Material(
         color: bgColor,
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CompanyDetailScreen(company: widget.company),
+              ),
+            );
+          },
           hoverColor: hoverColor,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
@@ -165,7 +177,14 @@ class _CompanyTileState extends ConsumerState<CompanyTile> {
       child: Material(
         color: bgColor,
         child: InkWell(
-          onTap: () {}, // For hover effect
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CompanyDetailScreen(company: widget.company),
+              ),
+            );
+          },
           hoverColor: hoverColor,
           child: Container(
             height: 48,

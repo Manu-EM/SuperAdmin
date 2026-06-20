@@ -220,11 +220,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                     ),
                   ),
-                  const Text(
-                    'Control Panel',
-                    style: TextStyle(color: Colors.grey, fontSize: 12),
-                    overflow: TextOverflow.ellipsis,
-                  ),
                 ],
               ),
             ),
@@ -408,7 +403,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               final tableBg = isDark ? const Color(0xFF161616) : Colors.white;
               final headerBg = isDark ? const Color(0xFF111111) : const Color(0xFFFAFAFA);
               final headerTextStyle = TextStyle(
-                color: isDark ? const Color(0xFF444444) : const Color(0xFFAAAAAA),
+                color: isDark ? Colors.white : const Color(0xFF555555),
                 fontSize: 10,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 1.0,

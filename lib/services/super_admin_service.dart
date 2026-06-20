@@ -176,6 +176,33 @@ class SuperAdminService {
         .eq('company_name', companyName);
   }
 
+  /// Upserts all companies from a given client account into `cached_companies`.
+  /// Called every time the Super Admin app fetches live companies, so the cache
+  /// stays in sync automatically when clients add / rename companies.
+  Future<void> syncCachedCompanies(
+      String clientAccountId, List<TallyCompany> companies) async {
+    if (companies.isEmpty) return;
+
+    try {
+      final payload = companies.map((c) => {
+        'client_account_id': clientAccountId,
+        'company_name': c.name,
+        'is_active': c.isActive,
+        'created_at': c.createdAt.toIso8601String(),
+        'last_updated_at': DateTime.now().toIso8601String(),
+      }).toList();
+
+      // onConflict uses the unique constraint on (client_account_id, company_name)
+      await client.from('cached_companies').upsert(
+        payload,
+        onConflict: 'client_account_id, company_name',
+      );
+    } catch (e) {
+      // Non-fatal: just log — the live UI data is still correct
+      print('Warning: failed to sync cached_companies: $e');
+    }
+  }
+
   Future<List<AuditLogEntry>> fetchAuditLog() async {
     final response = await client
         .from('audit_log')

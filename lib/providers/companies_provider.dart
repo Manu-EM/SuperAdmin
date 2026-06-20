@@ -11,10 +11,11 @@ final clientAccountsProvider = FutureProvider<List<ClientAccount>>((ref) async {
 
 final multiSupabaseServiceProvider = Provider<MultiSupabaseService>((ref) {
   final accountsAsyncValue = ref.watch(clientAccountsProvider);
-  
+  final superAdminService = ref.watch(superAdminServiceProvider);
+
   // Return an empty service if accounts haven't loaded yet.
   final accounts = accountsAsyncValue.valueOrNull ?? [];
-  return MultiSupabaseService(accounts);
+  return MultiSupabaseService(accounts, superAdminService);
 });
 
 final companiesProvider = FutureProvider<List<TallyCompany>>((ref) async {
